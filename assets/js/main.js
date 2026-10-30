@@ -54,6 +54,14 @@
       var service = serviceEl ? serviceEl.value : "";
       var detailsEl = form.querySelector('[name="details"]');
       var details = detailsEl ? detailsEl.value.trim() : "";
+      var zipEl = form.querySelector('[name="zip"]');
+      var zip = zipEl ? zipEl.value.trim() : "";
+      var urgencyEl = form.querySelector('[name="urgency"]');
+      var urgency = urgencyEl ? urgencyEl.value : "";
+      var extra = [];
+      if (zip) extra.push("ZIP: " + zip);
+      if (urgency) extra.push("Urgency: " + urgency);
+      if (extra.length) details = details ? details + "\n" + extra.join(" · ") : extra.join(" · ");
 
       if (name.length < 2) return showErr("Please enter your name.");
       if (!/^[+()\-.\s\d]{7,20}$/.test(phone)) return showErr("Please enter a valid phone number so we can reach you.");
