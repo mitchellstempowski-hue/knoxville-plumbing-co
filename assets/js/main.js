@@ -34,7 +34,7 @@
 
   /* Quote form — posts JSON to FormSubmit, which emails the lead to the
      business inbox (GitHub Pages can't run PHP; no Hostinger backend). */
-  var QUOTE_ENDPOINT = "https://formsubmit.co/ajax/mitchell@msecomllc.com";
+  var QUOTE_ENDPOINT = "https://formsubmit.co/ajax/b77fc05b4ad60a601ad2911573ae0eeb"; // FormSubmit alias for the business inbox
   var form = document.getElementById("quoteForm");
   if (form) {
     form.addEventListener("submit", function (e) {
