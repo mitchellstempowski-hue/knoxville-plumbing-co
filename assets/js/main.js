@@ -32,8 +32,9 @@
     });
   });
 
-  /* Quote form — posts JSON to the mailer on vellops.com (GitHub Pages can't run PHP). */
-  var QUOTE_ENDPOINT = "https://vellops.com/quote-knoxville.php"; // live mailer, CORS-enabled
+  /* Quote form — posts JSON to FormSubmit, which emails the lead to the
+     business inbox (GitHub Pages can't run PHP; no Hostinger backend). */
+  var QUOTE_ENDPOINT = "https://formsubmit.co/ajax/mitchell@msecomllc.com";
   var form = document.getElementById("quoteForm");
   if (form) {
     form.addEventListener("submit", function (e) {
@@ -66,7 +67,7 @@
       if (name.length < 2) return showErr("Please enter your name.");
       if (!/^[+()\-.\s\d]{7,20}$/.test(phone)) return showErr("Please enter a valid phone number so we can reach you.");
 
-      var payload = { name: name, phone: phone, service: service, details: details, page: location.href, ts: new Date().toISOString() };
+      var payload = { name: name, phone: phone, service: service, details: details, page: location.href, ts: new Date().toISOString(), _subject: "New quote request — Knoxville Plumbing Co", _template: "table", _captcha: "false", _honey: "" };
 
       // Attempt real POST. On failure we show an honest error — never a fake success.
       fetch(QUOTE_ENDPOINT, {
@@ -76,7 +77,8 @@
       }).then(function (r) {
         if (!r.ok) throw new Error("endpoint not wired");
         return r.json();
-      }).then(function () {
+      }).then(function (data) {
+        if (!data || !(data.success === "true" || data.success === true)) throw new Error("endpoint not wired");
         showOk();
       }).catch(function () {
         // Real mailer failed — never fake a success. Ask the visitor to retry.
